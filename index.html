@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffebee;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            perspective: 1000px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            min-height: 450px;
+            aspect-ratio: 7/9;
+            transition: transform 0.8s ease;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .card-container.opened {
+            transform: rotateY(180deg);
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .front {
+            background: white;
+            background: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+        }
+
+        .front h1 {
+            color: #ff5a5f;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+
+        .front p {
+            color: #666;
+            font-style: italic;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            margin: 0;
+        }
+
+        .back {
+            background: #ff5a5f;
+            color: white;
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #ff5a5f 0%, #ff8a9f 100%);
+        }
+
+        .heart-emoji {
+            font-size: clamp(3rem, 10vw, 5rem);
+            margin: 15px 0;
+            animation: heartbeat 1.5s infinite;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.3s;
+        }
+
+        .heart-emoji:hover {
+            transform: scale(1.1);
+        }
+
+        .back h2 {
+            margin-bottom: 15px;
+            font-size: clamp(1.5rem, 5vw, 1.8rem);
+        }
+
+        .back p {
+            line-height: 1.6;
+            margin: 10px 0;
+            padding: 0 10px;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .flores {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .flor {
+            position: absolute;
+            font-size: clamp(15px, 4vw, 25px);
+            opacity: 0;
+            animation: caer 5s linear infinite;
+            will-change: transform;
+        }
+
+        .tap-instruction {
+            position: absolute;
+            bottom: 15px;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            color: #888;
+            animation: pulse 2s infinite;
+            width: 100%;
+            text-align: center;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes caer {
+            0% {
+                top: -10%;
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 110%;
+                opacity: 0.5;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .signature {
+            font-style: italic;
+            margin-top: 15px;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        /* Media queries para ajustes específicos */
+        @media (max-width: 400px) {
+            .card-container {
+                max-width: 300px;
+                min-height: 400px;
+            }
+            
+            .heart-emoji {
+                margin: 10px 0;
+            }
+            
+            .back p {
+                line-height: 1.5;
+                margin: 8px 0;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .card-container {
+                max-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container" id="cardContainer">
+        <div class="card front">
+            <h1>Para Alguien Especial</h1>
+            <p>Toca la tarjeta para abrirla...</p>
+            <div class="heart-emoji">❤️</div>
+            <div class="tap-instruction">👆 Haz clic para abrir</div>
+            <div class="flores" id="floresFront"></div>
+        </div>
+        
+        <div class="card back">
+            <h2>Para Emy ❤️</h2>
+            <div class="heart-emoji">❤️</div>
+            <p>
+                Oye… no sé por qué, pero a veces cuando trabajo, me llega tu voz de repente. 😅<br><br>
+                No es molestia, para nada. Al contrario, me da curiosidad saber más de ti.<br><br>
+                Ojalá algún día puedas contarme algo que no sepa todavía. 👀✨<br><br>
+                Con cariño, un admirador secreto.
+            </p>
+            <div class="flores" id="floresBack"></div>
+        </div>
+    </div>
+
+    <script>
+        // Animación de abrir/cerrar tarjeta
+        const cardContainer = document.getElementById('cardContainer');
+        
+        // Mejor manejo del evento click
+        cardContainer.addEventListener('click', function() {
+            this.classList.toggle('opened');
+        }, { passive: true });
+
+        // Crear flores que caen (optimizado)
+        const floresFront = document.getElementById('floresFront');
+        const floresBack = document.getElementById('floresBack');
+        const emojisFlores = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷', '💐', '🏵️'];
+        let florInterval;
+
+        function crearFlor(container) {
+            const flor = document.createElement('div');
+            flor.className = 'flor';
+            flor.innerHTML = emojisFlores[Math.floor(Math.random() * emojisFlores.length)];
+            
+            flor.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 3 + 3;
+            flor.style.animationDuration = duration + 's';
+            
+            container.appendChild(flor);
+            
+            setTimeout(() => {
+                container.removeChild(flor);
+            }, duration * 1000);
+        }
+
+        function iniciarFlores() {
+            florInterval = setInterval(() => {
+                crearFlor(floresFront);
+                crearFlor(floresBack);
+            }, 300);
+        }
+
+        // Efecto de latido al hacer clic en el corazón (optimizado)
+        const hearts = document.querySelectorAll('.heart-emoji');
+        
+        hearts.forEach(heart => {
+            heart.addEventListener('click', (e) => {
+                e.stopPropagation();
+                heart.style.animation = 'none';
+                void heart.offsetWidth; // Trigger reflow
+                heart.style.animation = 'heartbeat 0.5s';
+            }, { passive: true });
+        });
+
+        // Iniciar animaciones cuando la página está cargada
+        document.addEventListener('DOMContentLoaded', iniciarFlores);
+        
+        // Limpiar intervalos al salir (buena práctica)
+        window.addEventListener('beforeunload', () => {
+            clearInterval(florInterval);
+        });
+    </script>
+</body>
+</html>
