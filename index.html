@@ -9,13 +9,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100dvh; /* Cambiado a dvh para mejor soporte en móviles */
             background-color: #ffebee;
             font-family: 'Arial', sans-serif;
             margin: 0;
             overflow: hidden;
             perspective: 1000px;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
         }
 
@@ -24,12 +24,12 @@
             width: 100%;
             max-width: 350px;
             height: auto;
-            min-height: 500px;
-            aspect-ratio: 7/9;
+            min-height: 550px; /* Altura base */
+            aspect-ratio: 7/10; /* Ajustado ligeramente */
             transition: transform 0.8s ease;
             transform-style: preserve-3d;
             cursor: pointer;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .card-container.opened {
@@ -163,26 +163,58 @@
             font-size: clamp(0.9rem, 3vw, 1rem);
         }
 
-        /* Media queries para ajustes específicos */
-        @media (max-width: 400px) {
+        /* Media queries mejorados */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
             .card-container {
-                max-width: 300px;
-                min-height: 400px;
+                max-width: 100%;
+                min-height: 75dvh; /* Usa el 75% del viewport en móviles */
+                aspect-ratio: unset; /* Removido para mayor flexibilidad */
+            }
+            
+            .card {
+                padding: 15px;
             }
             
             .heart-emoji {
                 margin: 10px 0;
+                font-size: clamp(2.5rem, 12vw, 4rem);
             }
             
             .back p {
                 line-height: 1.5;
                 margin: 8px 0;
+                padding: 0 5px;
             }
         }
 
-        @media (max-height: 600px) {
+        @media (max-width: 400px) and (orientation: portrait) {
             .card-container {
-                max-height: 80vh;
+                min-height: 80dvh; /* Más alto en móviles pequeños */
+            }
+            
+            .front h1, .back h2 {
+                font-size: clamp(1.3rem, 6vw, 1.6rem);
+                margin-bottom: 10px;
+            }
+            
+            .front p, .back p {
+                font-size: clamp(0.8rem, 4vw, 0.9rem);
+            }
+            
+            .tap-instruction {
+                bottom: 10px;
+                font-size: clamp(0.7rem, 3vw, 0.8rem);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .card-container {
+                min-height: 85dvh;
+                max-height: 85dvh;
             }
         }
     </style>
